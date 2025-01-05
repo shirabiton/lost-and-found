@@ -1,0 +1,218 @@
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+body {
+  @apply font-fredoka text-secondary;
+}
+
+
+.inner-body {
+  @apply p-[50px] text-right min-h-[80vh] flex items-center justify-center;
+}
+
+input {
+  @apply text-right border-2 border-primary rounded-md
+}
+
+@layer utilities {
+  .btn {
+    @apply py-3 px-6 min-w-[11vw] rounded-[10px];
+  }
+}
+
+/* buttons */
+.primary-btn {
+  @apply btn bg-primary hover:bg-[#FFE35A] active:bg-[#EACD3C];
+}
+
+.secondary-btn {
+  @apply btn bg-secondary text-white hover:bg-[#303030] active:bg-secondary;
+}
+
+.delete-btn {
+  @apply btn bg-[#CF5151] text-white hover:bg-[#D26F6F] active:bg-[#C24B4B];
+}
+
+.disabled-btn {
+  @apply btn bg-[#EAEAEA] text-[#B8B8B8] cursor-not-allowed font-fredoka;
+}
+
+/* error */
+.error-message {
+  @apply text-red-500 text-sm h-[20px];
+}
+
+/* select */
+.react-select__option--is-focused,
+.react-select__option--is-selected {
+  background-color: #fadb3f !important;
+}
+
+.react-select__control {
+  border-color: #fadb3f !important;
+  box-shadow: none !important;
+  direction: rtl;
+}
+
+.react-select__menu {
+  direction: rtl;
+}
+
+/* checkbox */
+.custom-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #000000;
+  border-radius: 4px;
+  appearance: none;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.custom-checkbox:checked {
+  background-color: #fadb3f;
+  border-color: #000000;
+}
+
+/* title form */
+.section-title {
+  @apply font-semibold text-lg mb-2;
+}
+
+/* error */
+.error-message {
+  @apply text-red-500 text-sm;
+}
+
+/* scroll */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* select */
+.react-select__option--is-focused,
+.react-select__option--is-selected {
+  background-color: #FADB3F !important;
+}
+
+.react-select__control {
+  border-color: #FADB3F !important;
+  box-shadow: none !important;
+  direction: rtl;
+}
+
+input:checked+label .indicator {
+  @apply block;
+}
+
+.state:checked~.label .text {
+  @apply opacity-100;
+}
+
+/* show questions */
+.state {
+  @apply absolute top-0 right-0 opacity-[1e-5] pointer-events-none;
+}
+
+.label {
+  @apply inline-flex items-center cursor-pointer;
+}
+
+.text {
+  @apply mr-[16px] opacity-50 transition-opacity transition-transform duration-200 ease-linear transform;
+}
+
+.indicator {
+  @apply w-4 h-4 hidden rounded-full bg-primary;
+}
+
+.state:checked~.label .indicator::after {
+  @apply opacity-100 transition-opacity transition-transform duration-200 opacity-100 hover:opacity-50 ease-linear hover:ease-out transform hover:scale-105;
+}
+
+.state:focus~.label .text {
+  @apply opacity-100 transform translate-x-[8px];
+}
+
+.label:hover .text {
+  @apply opacity-100 scale-105;
+}
+
+input:checked+label .indicator {
+  @apply block;
+}
+
+.state:checked~.label .text {
+  @apply opacity-100;
+}
+
+/* contact to admin */
+.contact-input {
+  @apply bg-inherit text-white border-b-[1px] pt-3 pb-1 border-b-white;
+}
+
+.contact-input:focus {
+  @apply outline-none ring-0;
+}
+
+/* arrow button */
+@keyframes updown {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-updown {
+  animation: updown 1s ease-in-out infinite;
+}
+
+/* chat */
+.chat-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 768px) {
+  .chat-container {
+    flex-wrap: nowrap;
+  }
+}
+
+@media (max-width: 767px) {
+  .chat-container {
+    flex-wrap: wrap;
+  }
+}
+
+/* Footer */
+.footer-li {
+  @apply text-white cursor-pointer;
+}
+
+.footer-icon {
+  @apply cursor-pointer w-[24px] h-[24px];
+}
+
+/* about */
+.about-string{
+  @apply text-lg text-center mb-8 font-semibold;
+}
+.about-p{
+  @apply text-lg text-center mb-8;
+}
