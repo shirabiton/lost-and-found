@@ -1,22 +1,21 @@
 import * as xlsx from 'xlsx';
+import fs from 'fs';
+import path from 'path';
 import SubCategoryModel from "@/app/lib/models/subCategory";
 import { Category } from "@/app/types/props/category";
-import axios from "axios";
 import connect from '@/app/lib/db/mongo';
 import CategoryModel from '@/app/lib/models/category';
-import { NextRequest, NextResponse } from 'next/server';
-import { getVercelUrl } from '@/app/utils/vercelUrl';
+import { NextResponse } from 'next/server';
 
-export async function POST(request: NextRequest) {
-
-    const vercelUrl = getVercelUrl(request);
-    const baseUrl = vercelUrl || process.env.NEXT_PUBLIC_BASE_URL
+export async function POST() {
     try {
         await connect();
+        // Path to the Excel file
+        const filePath = path.join(process.cwd(), 'public', 'categories.xlsx');
         // Reads the content of the Excel file as a binary buffer for further processing
-        const fileBuffer = await axios.get(`${baseUrl}/categories.xlsx`, { responseType: 'arraybuffer' });
-        // Loads the binary buffer into the XLSX library, which can parse and process Excel files
-        const workbook = xlsx.read(fileBuffer.data, { type: 'buffer' });
+        const fileBuffer = fs.readFileSync(filePath);
+        // Parse the Excel file
+        const workbook = xlsx.read(fileBuffer, { type: 'buffer' });
         // Retrieves the first sheet from the workbook, based on the list of sheet names
         const sheet = workbook.Sheets[workbook.SheetNames[0]];
         // Converts the first sheet into a simple JSON format (an array of objects),
@@ -36,11 +35,10 @@ export async function POST(request: NextRequest) {
                 let existingCategory = await CategoryModel.findOne({ title: categoryTitle });
 
                 if (!existingCategory) {
-                    existingCategory = await axios.post(`${baseUrl}/api/category`, { title: categoryTitle })
-                    console.log(`Category "${categoryTitle}" added.`);
+                    existingCategory = await CategoryModel.create({ title: categoryTitle });
+                    // 000 existingCategory = await axios.post(`${baseUrl}/api/category`, )
                 } else {
                     lastCategoryTitle = categoryTitle;
-                    console.log(`Category  "${categoryTitle}" already exists.`);
                 }
 
                 // Update the last parent category
@@ -56,7 +54,7 @@ export async function POST(request: NextRequest) {
                     const parentCategory: Category | null = await CategoryModel.findOne({ title: lastCategoryTitle });
                     if (parentCategory) {
                         // Create a new subcategory with the parent category id
-                        const newSubCategory = await axios.post(`${baseUrl}/api/sub-category`, { title: subCategoryTitle, categoryId: parentCategory._id });
+                        const newSubCategory = await SubCategoryModel.create({ title: subCategoryTitle, categoryId: parentCategory._id });
                         if (newSubCategory) {
                             console.log(`Subcategory  "${subCategoryTitle}" added under category "${lastCategoryTitle}".`);
                         }
