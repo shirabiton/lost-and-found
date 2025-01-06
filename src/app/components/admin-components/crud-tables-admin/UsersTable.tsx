@@ -1,14 +1,8 @@
 "use client";
-import {
-  createUser,
-  deleteUserById,
-  getUsers,
-  updateUserById,
-} from "@/app/services/api/userService";
-import { User } from "@/app/types/props/user";
-import { Types } from "mongoose";
 import React, { useEffect, useState } from "react";
-// import Swal from "sweetalert2";
+import { Types } from "mongoose";
+import { User } from "@/app/types/props/user";
+import { createUser, deleteUserById, getUsers, updateUserById, } from "@/app/services/api/userService";
 
 export const UsersTable = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -27,6 +21,7 @@ export const UsersTable = () => {
     password: "",
     phone: "",
   });
+
   const fetchUsers = async () => {
     try {
       const usersData = await getUsers();
@@ -40,7 +35,7 @@ export const UsersTable = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, []); // no dependency
+  }, []);
 
   const handleDelete = async (id: string) => {
     await deleteUserById(id);
@@ -143,7 +138,7 @@ export const UsersTable = () => {
                         defaultValue={
                           user.password
                             ? user.password[0] +
-                              "*".repeat(user.password.length - 1)
+                            "*".repeat(user.password.length - 1)
                             : ""
                         }
                         className="w-full p-2 border rounded"
@@ -188,7 +183,7 @@ export const UsersTable = () => {
                     <td className="table-cell">
                       {user.password
                         ? user.password[0] +
-                          "*".repeat(user.password.length - 1)
+                        "*".repeat(user.password.length - 1)
                         : ""}
                     </td>
 
